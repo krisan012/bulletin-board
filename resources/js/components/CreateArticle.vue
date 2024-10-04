@@ -27,7 +27,7 @@
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" :disabled="isLoading">Submit</button>
         </form>
 
         <!-- Success Message -->
@@ -51,8 +51,10 @@ import {computed, ref} from "vue";
     const successMessage = ref('');
     const errorMessage = ref('');
     const router = useRouter()
+    const isLoading = ref(false)
 
     const submitArticle = async () => {
+        isLoading.value = true
         successMessage.value = ""
         errorMessage.value = ""
 
@@ -72,7 +74,7 @@ import {computed, ref} from "vue";
             } else {
                 errorMessage.value = 'An error occurred while submitting the article.';
             }
-        })
+        }).finally(() => isLoading.value = false)
     }
 
     const formattedContent = computed(() => content.value.replace(/\n/g, '<br>'));
