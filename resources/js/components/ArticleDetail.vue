@@ -21,8 +21,25 @@
                 <p><small class="text-muted">Published: {{ article.created_at }}</small></p>
 
                 <!-- Use white-space: pre-wrap to preserve new lines in the content -->
-                <div class="article-content" v-html="article.content">
+                <div class="article-content" v-html="article.content"></div>
 
+                <div class="upvote-section mt-4">
+                    <button
+                        v-if="!isUpvoted"
+                        @click="upvoteArticle"
+                        class="btn btn-outline-primary"
+                        :disabled="isUpvoting"
+                    >
+                        Upvote ({{ upvoteCount }})
+                    </button>
+                    <button
+                        v-if="isUpvoted"
+                        @click="removeUpvote"
+                        class="btn btn-primary"
+                        :disabled="isUpvoting"
+                    >
+                        Remove Upvote ({{ upvoteCount }})
+                    </button>
                 </div>
 
                 <div class="comments mt-4">
@@ -58,7 +75,6 @@
                     </transition-group>
                 </div>
 
-
             </div>
         </transition-group>
 
@@ -77,6 +93,9 @@ const router = useRouter(); // Get route parameters
 const article = ref({}); // Reactive variable to store article details
 const comments = ref([]);
 const newComment = ref('');
+const upvoteCount = ref(0);
+const isUpvoted = ref(false);
+const isUpvoting = ref(false);
 const loading = ref(true); // Loading state
 const errorMessage = ref(''); // Error message
 const isOwnedByCurrentUser = ref(false);
@@ -87,6 +106,8 @@ onMounted(async () => {
     axios(`/articles/${articleId}`)
         .then(response => {
             article.value = response.data.article
+            upvoteCount.value = response.data.article.upvotes.length;
+            isUpvoted.value = response.data.isUpvotedByUser;
             comments.value = response.data.article.comments.reverse()
             isOwnedByCurrentUser.value = response.data.isOwnedByCurrentUser;
         }).catch(error => {
@@ -136,6 +157,30 @@ const deleteArticle = async () => {
         }).catch(error => {
             Swal.fire('Error', 'There was a problem deleting the article.', 'error');
         })
+}
+
+const upvoteArticle = async () => {
+    isUpvoting.value = true
+    try {
+        await axios.post(`/articles/${article.value.id}/upvote`);
+        upvoteCount.value++;
+        isUpvoted.value = true;
+    } catch (error) {
+        errorMessage.value = 'Failed to upvote article';
+    }
+    isUpvoting.value = false
+}
+
+const removeUpvote = async () => {
+    isUpvoting.value = true
+    try {
+        await axios.delete(`/articles/${article.value.id}/upvote`);
+        upvoteCount.value--;
+        isUpvoted.value = false;
+    } catch (error) {
+        errorMessage.value = 'Failed to remove upvote';
+    }
+    isUpvoting.value = false
 }
 </script>
 

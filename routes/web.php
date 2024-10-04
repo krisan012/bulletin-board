@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UpvoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::get('/api/user', function () {
 
 Route::resource('/articles', ArticleController::class);
 Route::post('/articles/{article}/comment', [CommentController::class, 'store']);
+Route::post('/articles/{article}/upvote', [UpvoteController::class, 'upvote'])->middleware('auth');
+Route::delete('/articles/{article}/upvote', [UpvoteController::class, 'removeUpvote'])->middleware('auth');
 
 Route::get('/{any}', function () {
     return view('welcome');

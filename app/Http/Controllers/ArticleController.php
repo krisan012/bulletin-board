@@ -35,10 +35,10 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         $isOwnedByCurrentUser = auth()->check() && auth()->user()->id === $article->user_id;
-
+        $isUpvotedByUser = auth()->check() && $article->isUpvotedByUser(auth()->id());
         return response()->json([
-            'article' => $article,
-            'comments' => $article->load('comments.user'),
+            'article' => $article->load(['comments.user', 'upvotes']),
+            'isUpvotedByUser' => $isUpvotedByUser,
             'isOwnedByCurrentUser' => $isOwnedByCurrentUser,
         ]);
     }
