@@ -23,7 +23,7 @@
 
                         <small>{{ article.created_at }}</small>
                     </div>
-                    <div class="mb-1" v-html="article.content"></div>
+                    <div class="mb-1" v-html="htmlSnippet(article.content, 300)"></div>
                     <small>by: {{ article.user.name }}</small>
                 </li>
             </ul>
@@ -34,6 +34,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
+import DOMPurify from 'dompurify';
 
 const articles = ref([]);
 const loading = ref(true);
@@ -57,6 +58,11 @@ const fetchArticles = async () => {
 
 const reload = () => {
     fetchArticles()
+}
+
+const htmlSnippet = (content, length) => {
+    const strippedContent = DOMPurify.sanitize(content, { ALLOWED_TAGS: [] });
+    return strippedContent.length > length ? strippedContent.substring(0, length) + '...' : strippedContent;
 }
 </script>
 
