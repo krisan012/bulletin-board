@@ -9,7 +9,7 @@ class Vote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['article_id', 'user_id', 'is_upvote'];
+    protected $fillable = ['article_id', 'user_id'];
 
     // Define the relationship with the Article model
     public function article()

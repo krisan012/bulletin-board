@@ -38,6 +38,7 @@ class ArticleController extends Controller
 
         return response()->json([
             'article' => $article,
+            'comments' => $article->load('comments.user'),
             'isOwnedByCurrentUser' => $isOwnedByCurrentUser,
         ]);
     }

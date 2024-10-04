@@ -17,15 +17,20 @@ class Article extends Model
         return $this->belongsTo(User::class);
     }
 
-//    public function comments()
-//    {
-//        return $this->hasMany(Comment::class);
-//    }
-//
-//    public function votes()
-//    {
-//        return $this->hasMany(Vote::class);
-//    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function upvotes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+    public function isUpvotedByUser($userId)
+    {
+        return $this->upvotes()->where('user_id', $userId)->exists();
+    }
 
     protected function serializeDate(DateTimeInterface $date){
         return $date->format('F d, Y h:i:s');

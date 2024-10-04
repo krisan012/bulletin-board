@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('article_id')->constrained()->onDelete('cascade');  // Reference to Article
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('is_upvote');  // True for upvote, False for downvote
             $table->timestamps();
         });
     }
