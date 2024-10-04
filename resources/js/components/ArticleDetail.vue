@@ -69,7 +69,7 @@
                             <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
                             <div class="d-flex w-100 justify-content-between">
                                 <div></div>
-                                <button type="submit" class="btn btn-primary">Submit Comment</button>
+                                <button type="submit" class="btn btn-primary" :disabled="isCommenting">Submit Comment</button>
                             </div>
 
                         </form>
@@ -102,6 +102,7 @@ const router = useRouter(); // Get route parameters
 const article = ref({}); // Reactive variable to store article details
 const comments = ref([]);
 const newComment = ref('');
+const isCommenting = ref(false)
 const upvoteCount = ref(0);
 const isUpvoted = ref(false);
 const isUpvoting = ref(false);
@@ -127,6 +128,7 @@ onMounted(async () => {
 })
 
 const submitComment = () => {
+    isCommenting.value = true
     errorMessage.value = ''
 
     axios.post(`/articles/${article.value.id}/comment`, {
@@ -136,7 +138,7 @@ const submitComment = () => {
         newComment.value = '';
     }).catch(error => {
         errorMessage.value = 'Failed to submit the comment';
-    })
+    }).finally(() => isCommenting.value = false)
 }
 
 const confirmDelete = () => {
