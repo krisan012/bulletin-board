@@ -9,16 +9,23 @@
                 <div class="d-flex w-100 justify-content-between">
                     <h1>{{ article.title }}</h1>
 
-                    <button
-                        v-if="isOwnedByCurrentUser"
-                        @click="confirmDelete"
-                        class="btn btn-danger btn-sm"
-                    >
-                        Delete Article
-                    </button>
+                    <div>
+                        <router-link v-if="isOwnedByCurrentUser" :to="`/articles/${article.id}/edit`" class="btn btn-warning">
+                            Edit Article
+                        </router-link>
+                        <button
+                            v-if="isOwnedByCurrentUser"
+                            @click="confirmDelete"
+                            class="btn btn-danger btn-sm"
+                        >
+                            Delete Article
+                        </button>
+                    </div>
                 </div>
 
-                <p><small class="text-muted">Published: {{ article.created_at }}</small></p>
+                <small class="text-muted">Published: {{ article.created_at }}</small>
+                <br>
+                <small class="text-muted">By: {{ article.user.name }}</small>
 
                 <!-- Use white-space: pre-wrap to preserve new lines in the content -->
                 <div class="article-content" v-html="article.content"></div>

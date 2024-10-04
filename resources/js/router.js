@@ -3,6 +3,7 @@ import HomePage from "./components/HomePage.vue";
 import ArticleDetail from "./components/ArticleDetail.vue";
 import NotFound from "./components/NotFound.vue";
 import CreateArticle from "./components/CreateArticle.vue";
+import EditArticle from "@/components/EditArticle.vue";
 
 const routes = [
     { path: '/', component: HomePage },
@@ -13,6 +14,7 @@ const routes = [
         component: ArticleDetail,
         props: true,
     },
+    { path: '/articles/:id/edit', component: EditArticle },
     {
         path: '/:pathMatch(.*)*', // Catch-all route for unmatched paths
         name: 'NotFound',
