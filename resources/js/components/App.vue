@@ -16,6 +16,8 @@ const user = ref(window.Laravel.user);
 
 </script>
 
-<style scoped>
-
+<style>
+.container {
+    max-width: 800px;
+}
 </style>

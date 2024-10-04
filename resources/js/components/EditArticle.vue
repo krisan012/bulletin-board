@@ -34,7 +34,9 @@
 
             <div class="d-flex w-100 justify-content-between">
                 <button :disabled="isSubmiting" type="submit" class="btn btn-primary">Update Article</button>
-                <router-link to="/" class="btn btn-secondary" :disabled="isSubmiting">Cancel</router-link>
+                <router-link :to="{ name: 'ArticleDetail', params: { id: article.id } }" class="btn btn-secondary" :disabled="isSubmiting">
+                    Cancel
+                </router-link>
             </div>
 
         </form>
@@ -102,7 +104,7 @@ const submitUpdate = async () => {
 <style scoped>
 /* Skeleton loader styles */
 .skeleton-loader {
-    max-width: 600px;
+    max-width: 800px;
     margin: 20px 0;
 }
 
@@ -143,12 +145,6 @@ const submitUpdate = async () => {
     width: 100%;
     height: 20px;
 }
-
-/* Adjust the margin and form styles */
-.container {
-    max-width: 600px;
-}
-
 .alert {
     margin-top: 20px;
 }
