@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
 import HomePage from "./components/HomePage.vue";
 import ArticleDetail from "./components/ArticleDetail.vue";
 import NotFound from "./components/NotFound.vue";
@@ -7,7 +7,12 @@ import CreateArticle from "./components/CreateArticle.vue";
 const routes = [
     { path: '/', component: HomePage },
     { path: '/create-article', component: CreateArticle },
-    { path: '/article/:id', component: ArticleDetail },
+    {
+        path: '/article/:id',
+        name: 'ArticleDetail',
+        component: ArticleDetail,
+        props: true,
+    },
     {
         path: '/:pathMatch(.*)*', // Catch-all route for unmatched paths
         name: 'NotFound',
@@ -16,7 +21,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     routes,
 })
 

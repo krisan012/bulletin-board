@@ -31,4 +31,27 @@ class ArticleController extends Controller
             'article' => $article
         ], 201);
     }
+
+    public function show(Article $article)
+    {
+        $isOwnedByCurrentUser = auth()->check() && auth()->user()->id === $article->user_id;
+
+        return response()->json([
+            'article' => $article,
+            'isOwnedByCurrentUser' => $isOwnedByCurrentUser,
+        ]);
+    }
+
+    public function destroy(Article $article)
+    {
+        // Ensure that only the owner can delete the article
+        if (auth()->user()->id !== $article->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Delete the article
+        $article->delete();
+
+        return response()->json(['message' => 'Article deleted successfully']);
+    }
 }

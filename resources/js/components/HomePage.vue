@@ -17,7 +17,10 @@
             <ul class="list-group">
                 <li class="list-group-item list-group-item-action flex-column align-items-start" v-for="article in articles" :key="article.id">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ article.title }}</h5>
+                        <router-link :to="{ name: 'ArticleDetail', params: { id: article.id } }">
+                            <h5 class="mb-1">{{ article.title }}</h5>
+                        </router-link>
+
                         <small>{{ article.created_at }}</small>
                     </div>
                     <div class="mb-1" v-html="article.content"></div>
