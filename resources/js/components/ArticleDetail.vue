@@ -11,7 +11,7 @@
                 <button
                     v-if="isOwnedByCurrentUser"
                     @click="confirmDelete"
-                    class="btn btn-danger"
+                    class="btn btn-danger btn-sm"
                 >
                     Delete Article
                 </button>
