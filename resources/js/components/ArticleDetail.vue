@@ -29,16 +29,18 @@
                         @click="upvoteArticle"
                         class="btn btn-outline-primary"
                         :disabled="isUpvoting"
+                        title="upvote"
                     >
-                        Upvote ({{ upvoteCount }})
+                        👍 ({{ upvoteCount }})
                     </button>
                     <button
                         v-if="isUpvoted"
                         @click="removeUpvote"
                         class="btn btn-primary"
                         :disabled="isUpvoting"
+                        title="upvote"
                     >
-                        Remove Upvote ({{ upvoteCount }})
+                        👍 ({{ upvoteCount }})
                     </button>
                 </div>
 
